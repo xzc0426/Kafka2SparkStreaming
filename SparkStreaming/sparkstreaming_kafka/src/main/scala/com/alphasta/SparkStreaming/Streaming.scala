@@ -7,12 +7,12 @@ import kafka.common.TopicAndPartition
 import kafka.consumer.SimpleConsumer
 import kafka.message.MessageAndMetadata
 import kafka.serializer.StringDecoder
-import kafka.utils.ZKGroupTopicDirs
+import kafka.utils.{ZKGroupTopicDirs, ZkUtils}
 import org.I0Itec.zkclient.ZkClient
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.dstream.InputDStream
-import org.apache.spark.streaming.kafka.KafkaUtils
+import org.apache.spark.streaming.kafka.{HasOffsetRanges, KafkaUtils, OffsetRange}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 /**
@@ -84,14 +84,15 @@ object Streaming {
       getLeaderConsumer.close()
 
       println("partitions: " + partitions)
-      println("offset数量: " + children)
+      println("offset数量是: " + children)
 
       //获取每个分区最小offset
       for (i <- 0 until children) {
 
         //获取zk中offset
         val partitionOffset = zkClient.readData[String](s"${topicDirs.consumerOffsetDir}/${i}")
-        println(s"partition ${i} 的 offset 是： ${partitionOffset}")
+        println(s"获取到partition ${i} 的offset是： ${partitionOffset}")
+
         //获取第i个分区最小offset
         //创建到第i个分区主分区的host连接
         val consumerMin = new SimpleConsumer(partitions(i), 9092, 100000, 10000, "getMinOffset")
@@ -112,6 +113,7 @@ object Streaming {
         if (curOffsets.length > 0 && curOffsets.head > nextOffset) {
           nextOffset = curOffsets.head
         }
+        println(s"Partition ${i} 修正后的offset是：${nextOffset}")
         fromOffsets += (tp -> nextOffset)
       }
 
@@ -129,8 +131,15 @@ object Streaming {
       textKafkaDStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParam, Set(sourceTopic))
     }
 
-    //处理业务
-    textKafkaDStream.map(s => "key:" + s._1 + " value:" + s._2).foreachRDD { rdd =>
+    //用RDD操作DStream
+    val offsetRanges = Array[OffsetRange]()
+    val textKafkaDStream2 = textKafkaDStream.transform { rdd =>
+      rdd.asInstanceOf[HasOffsetRanges].offsetRanges
+      rdd
+    }
+
+    //业务处理
+    textKafkaDStream2.map(s => "key:" + s._1 + " value:" + s._2).foreachRDD { rdd =>
       rdd.foreachPartition { items =>
 
         //需要用到连接池
@@ -141,15 +150,25 @@ object Streaming {
         //插入数据
         for (item <- items)
           kafkaProxy.send(targetTopic, item)
-        //返回连接
+        //关闭连接
         pool.returnObject(kafkaProxy)
       }
 
-      //启动程序
-      ssc.start()
-      //用于捕获异常
-      ssc.awaitTermination()
+      //将Kafka每个partition的offset更新到zk
+      val updateTopicDirs = new ZKGroupTopicDirs(groupId, sourceTopic)
+      val updateZkClient = new ZkClient(zookeeper)
+
+      for (offset <- offsetRanges) {
+        println(s"partition ${offset.partition} 保存到zk中的offset是: ${offset.fromOffset.toString}")
+        val zkPath = s"${updateTopicDirs.consumerOffsetDir}/${offset.partition}"
+        ZkUtils.updatePersistentPath(updateZkClient, zkPath, offset.fromOffset.toString)
+      }
+      updateZkClient.close()
 
     }
+    //启动程序
+    ssc.start()
+    //用于捕获异常
+    ssc.awaitTermination()
   }
 }
