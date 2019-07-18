@@ -1,0 +1,3 @@
+# Kafka2SparkStreaming
+## version 1
+spark streaming对接Kafka，实现zookeeper读取Kafka的每个partition最新offset，消费完毕后提交offset至zookeeper
