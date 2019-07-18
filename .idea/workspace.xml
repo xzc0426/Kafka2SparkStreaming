@@ -23,8 +23,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SparkStreaming/sparkstreaming_kafka/src/main/scala/com/alphasta/SparkStreaming/Streaming.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="162" column="37" lean-forward="true" selection-start-line="162" selection-start-column="37" selection-end-line="162" selection-end-column="37" />
+            <state relative-caret-position="175">
+              <caret line="158" column="14" lean-forward="true" selection-start-line="158" selection-start-column="14" selection-end-line="158" selection-end-column="14" />
               <folding>
                 <element signature="e#38#77#0" expanded="true" />
               </folding>
@@ -117,6 +117,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="xzc &lt;xzc0426@163.com&gt;" />
+      </list>
+    </option>
     <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="AUTO_COMMIT_ON_CHERRY_PICK" value="true" />
@@ -272,6 +277,13 @@
               <item name="alphasta" type="462c0819:PsiDirectoryNode" />
               <item name="SparkStreaming" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Kafka2SparkStreaming" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Kafka2SparkStreaming" type="462c0819:PsiDirectoryNode" />
+              <item name="SparkStreaming" type="462c0819:PsiDirectoryNode" />
+              <item name="sparkstreaming_kafka" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -379,7 +391,7 @@
       <workItem from="1563278458655" duration="1021000" />
       <workItem from="1563325631415" duration="607000" />
       <workItem from="1563348250550" duration="4649000" />
-      <workItem from="1563415863136" duration="4564000" />
+      <workItem from="1563415863136" duration="5375000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1563359599990</created>
@@ -402,14 +414,21 @@
       <option name="project" value="LOCAL" />
       <updated>1563433653298</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="update">
+      <created>1563434854429</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1563434854429</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64502000" />
+    <option name="totallyTimeSpent" value="65313000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1050" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17678382" />
@@ -608,8 +627,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SparkStreaming/sparkstreaming_kafka/src/main/scala/com/alphasta/SparkStreaming/Streaming.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="162" column="37" lean-forward="true" selection-start-line="162" selection-start-column="37" selection-end-line="162" selection-end-column="37" />
+        <state relative-caret-position="175">
+          <caret line="158" column="14" lean-forward="true" selection-start-line="158" selection-start-column="14" selection-end-line="158" selection-end-column="14" />
           <folding>
             <element signature="e#38#77#0" expanded="true" />
           </folding>
