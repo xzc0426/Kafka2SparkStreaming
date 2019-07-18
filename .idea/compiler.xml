@@ -9,8 +9,5 @@
         <module name="sparkstreaming_kafka" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="SparkStreaming_kafka" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
