@@ -1,6 +1,5 @@
 package com.alphasta.SparkStreaming
 
-
 import com.alphasta.kafka.KafkaConnPool
 import kafka.api.{OffsetRequest, PartitionOffsetRequestInfo, TopicMetadataRequest}
 import kafka.common.TopicAndPartition
