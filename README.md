@@ -1,5 +1,5 @@
 # Kafka2SparkStreaming
-## version 1
+## version 1.0
 spark streaming对接Kafka，读取 zookeeper 中的 offset，进行校准，消息处理完毕后将每个partition最新offset放到zookeeper的相应路径。
 
 ## 需求：
