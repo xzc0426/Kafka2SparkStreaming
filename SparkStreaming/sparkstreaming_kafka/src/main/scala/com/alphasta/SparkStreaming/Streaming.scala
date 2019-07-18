@@ -14,6 +14,7 @@ import org.apache.spark.SparkConf
 import org.apache.spark.streaming.dstream.InputDStream
 import org.apache.spark.streaming.kafka.{HasOffsetRanges, KafkaUtils, OffsetRange}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
+import org.elasticsearch.spark.streaming.EsSparkStreaming
 
 /**
   * Created by Xu on 2019/7/11.
@@ -22,7 +23,8 @@ object Streaming {
   def main(args: Array[String]): Unit = {
     //初始化
     val conf = new SparkConf().setAppName("Kafka").setMaster("local[*]")
-    val ssc = new StreamingContext(conf, Seconds(5))
+    val ssc = new StreamingContext(conf, Seconds(1))
+
     //创建连接Kafka参数
 
     val brokerList = "master01:9092,slave01:9092,slave02:9092"
@@ -150,6 +152,9 @@ object Streaming {
         //插入数据
         for (item <- items)
           kafkaProxy.send(targetTopic, item)
+
+        //EsSparkStreaming.saveJsonToEs(textKafkaDStream2, "2")
+
         //关闭连接
         pool.returnObject(kafkaProxy)
       }
