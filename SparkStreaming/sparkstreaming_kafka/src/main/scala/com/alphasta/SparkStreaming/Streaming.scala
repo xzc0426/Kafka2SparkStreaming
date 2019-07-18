@@ -153,6 +153,7 @@ object Streaming {
         for (item <- items)
           kafkaProxy.send(targetTopic, item)
 
+        //将结果保存到ES
         //EsSparkStreaming.saveJsonToEs(textKafkaDStream2, "2")
 
         //关闭连接
